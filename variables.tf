@@ -42,7 +42,7 @@ variable "amis" {
     ap-northeast-1 = "ami-8aa61c8a"
     ap-southeast-2 = "ami-5ddc9f67"
     eu-west-1      = "ami-2aaef35d"
-    us-east-1      = "ami-b540eade"
+    us-east-1      = "ami-8f7687e2"
     us-west-1      = "ami-5721df13"
     us-west-2      = "ami-cb584dfb"
   }

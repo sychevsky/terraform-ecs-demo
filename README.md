@@ -1,5 +1,8 @@
 # Terraform AWS ECS (+ Docker Registry)
 
+ ### Usage
+ terraform apply -var-file=dev.tfvars
+
 **Note** - This is still a work in progress, so expect issues and bugs .. Feel free to jump in and start fixing things.
 
 This repo contains a [Terraform](https://www.terraform.io) plan to run up an [Amazon ECS](http://docs.aws.amazon.com/AmazonECS/latest/developerguide/Welcome.html) cluster with a private Docker registry.

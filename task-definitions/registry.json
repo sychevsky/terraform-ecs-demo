@@ -2,8 +2,8 @@
     {
       "name": "registry",
       "image": "${registry_docker_image}",
-      "cpu": 1024,
-      "memory": 1000,
+      "cpu": 512,
+      "memory": 512,
       "entryPoint": [],
       "environment": [
         {
