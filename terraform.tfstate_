@@ -1,0 +1,725 @@
+{
+    "version": 1,
+    "serial": 25,
+    "modules": [
+        {
+            "path": [
+                "root"
+            ],
+            "outputs": {
+                "registry.dns_name": "s3-registry-elb-1588899051.us-east-1.elb.amazonaws.com"
+            },
+            "resources": {
+                "aws_ecs_cluster.default": {
+                    "type": "aws_ecs_cluster",
+                    "primary": {
+                        "id": "arn:aws:ecs:us-east-1:300795224194:cluster/sych-tf-cluster",
+                        "attributes": {
+                            "id": "arn:aws:ecs:us-east-1:300795224194:cluster/sych-tf-cluster",
+                            "name": "sych-tf-cluster"
+                        }
+                    }
+                },
+                "aws_ecs_service.s3-registry-elb": {
+                    "type": "aws_ecs_service",
+                    "depends_on": [
+                        "aws_ecs_cluster.default",
+                        "aws_ecs_task_definition.registry",
+                        "aws_elb.s3-registry-elb",
+                        "aws_iam_role.ecs_role",
+                        "aws_iam_role_policy.ecs_service_role_policy"
+                    ],
+                    "primary": {
+                        "id": "arn:aws:ecs:us-east-1:300795224194:service/s3-registry-elb",
+                        "attributes": {
+                            "cluster": "arn:aws:ecs:us-east-1:300795224194:cluster/sych-tf-cluster",
+                            "deployment_maximum_percent": "200",
+                            "deployment_minimum_healthy_percent": "100",
+                            "desired_count": "1",
+                            "iam_role": "arn:aws:iam::300795224194:role/ecs_role",
+                            "id": "arn:aws:ecs:us-east-1:300795224194:service/s3-registry-elb",
+                            "load_balancer.#": "1",
+                            "load_balancer.2277684149.container_name": "registry",
+                            "load_balancer.2277684149.container_port": "5000",
+                            "load_balancer.2277684149.elb_name": "s3-registry-elb",
+                            "name": "s3-registry-elb",
+                            "task_definition": "arn:aws:ecs:us-east-1:300795224194:task-definition/registry:6"
+                        }
+                    }
+                },
+                "aws_ecs_task_definition.registry": {
+                    "type": "aws_ecs_task_definition",
+                    "depends_on": [
+                        "template_file.registry_task"
+                    ],
+                    "primary": {
+                        "id": "registry",
+                        "attributes": {
+                            "arn": "arn:aws:ecs:us-east-1:300795224194:task-definition/registry:6",
+                            "container_definitions": "8235e69dfe73bd602e7a5f6bea5ae24285241745",
+                            "family": "registry",
+                            "id": "registry",
+                            "revision": "6"
+                        }
+                    }
+                },
+                "aws_elb.s3-registry-elb": {
+                    "type": "aws_elb",
+                    "primary": {
+                        "id": "s3-registry-elb",
+                        "attributes": {
+                            "access_logs.#": "0",
+                            "availability_zones.#": "3",
+                            "availability_zones.1305112097": "us-east-1b",
+                            "availability_zones.2762590996": "us-east-1d",
+                            "availability_zones.986537655": "us-east-1c",
+                            "connection_draining": "false",
+                            "connection_draining_timeout": "300",
+                            "cross_zone_load_balancing": "false",
+                            "dns_name": "s3-registry-elb-1588899051.us-east-1.elb.amazonaws.com",
+                            "health_check.#": "1",
+                            "health_check.0.healthy_threshold": "2",
+                            "health_check.0.interval": "30",
+                            "health_check.0.target": "HTTP:5000/",
+                            "health_check.0.timeout": "3",
+                            "health_check.0.unhealthy_threshold": "2",
+                            "id": "s3-registry-elb",
+                            "idle_timeout": "60",
+                            "instances.#": "0",
+                            "internal": "false",
+                            "listener.#": "1",
+                            "listener.996561874.instance_port": "5000",
+                            "listener.996561874.instance_protocol": "http",
+                            "listener.996561874.lb_port": "80",
+                            "listener.996561874.lb_protocol": "http",
+                            "listener.996561874.ssl_certificate_id": "",
+                            "name": "s3-registry-elb",
+                            "security_groups.#": "1",
+                            "security_groups.4043503174": "sg-43ec8c38",
+                            "source_security_group": "300795224194/default_elb_21abc278-02d3-3fa4-aaa4-408f97f9adb9",
+                            "source_security_group_id": "sg-43ec8c38",
+                            "subnets.#": "3",
+                            "subnets.1947741820": "subnet-740d9a2d",
+                            "subnets.2162367151": "subnet-5b87f72c",
+                            "subnets.3475649143": "subnet-bc3d8397",
+                            "tags.#": "1",
+                            "tags.Name": "s3-registry-elb",
+                            "zone_id": "Z3DZXE0Q79N41H"
+                        }
+                    }
+                },
+                "aws_iam_access_key.registry": {
+                    "type": "aws_iam_access_key",
+                    "depends_on": [
+                        "aws_iam_user.registry"
+                    ],
+                    "primary": {
+                        "id": "AKIAIBIRIBYK635K7IPQ",
+                        "attributes": {
+                            "id": "AKIAIBIRIBYK635K7IPQ",
+                            "secret": "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",
+                            "ses_smtp_password": "AtZ47o+bSf/3feLsPsy9l6X7CoooalhLvJzqICt2gkiI",
+                            "status": "Active",
+                            "user": "Registry"
+                        }
+                    }
+                },
+                "aws_iam_instance_profile.ecs": {
+                    "type": "aws_iam_instance_profile",
+                    "depends_on": [
+                        "aws_iam_role.ecs_role"
+                    ],
+                    "primary": {
+                        "id": "sych-ecs-instance-profile",
+                        "attributes": {
+                            "arn": "arn:aws:iam::300795224194:instance-profile/sych-ecs-instance-profile",
+                            "id": "sych-ecs-instance-profile",
+                            "name": "sych-ecs-instance-profile",
+                            "path": "/",
+                            "roles.#": "1",
+                            "roles.112154061": "ecs_role"
+                        }
+                    }
+                },
+                "aws_iam_policy.registry": {
+                    "type": "aws_iam_policy",
+                    "depends_on": [
+                        "template_file.registry_policy"
+                    ],
+                    "primary": {
+                        "id": "arn:aws:iam::300795224194:policy/registryaccess",
+                        "attributes": {
+                            "arn": "arn:aws:iam::300795224194:policy/registryaccess",
+                            "id": "arn:aws:iam::300795224194:policy/registryaccess",
+                            "name": "registryaccess",
+                            "path": "/",
+                            "policy": "{\n    \"Version\": \"2012-10-17\",\n    \"Statement\": [\n        {\n            \"Effect\": \"Allow\",\n            \"Action\": [\n                \"s3:ListBucket\"\n            ],\n            \"Resource\": [\n                \"arn:aws:s3:::sych-docker-east1\"\n            ]\n        },\n        {\n            \"Effect\": \"Allow\",\n            \"Action\": [\n                \"s3:PutObject\",\n                \"s3:GetObject\",\n                \"s3:DeleteObject\"\n            ],\n            \"Resource\": [\n                \"arn:aws:s3:::sych-docker-east1/*\"\n            ]\n        }\n    ]\n}\n"
+                        }
+                    }
+                },
+                "aws_iam_policy_attachment.registry-attach": {
+                    "type": "aws_iam_policy_attachment",
+                    "depends_on": [
+                        "aws_iam_policy.registry",
+                        "aws_iam_user.registry"
+                    ],
+                    "primary": {
+                        "id": "registry-attachment",
+                        "attributes": {
+                            "groups.#": "0",
+                            "id": "registry-attachment",
+                            "name": "registry-attachment",
+                            "policy_arn": "arn:aws:iam::300795224194:policy/registryaccess",
+                            "roles.#": "0",
+                            "users.#": "1",
+                            "users.886996828": "Registry"
+                        }
+                    }
+                },
+                "aws_iam_role.ecs_role": {
+                    "type": "aws_iam_role",
+                    "primary": {
+                        "id": "ecs_role",
+                        "attributes": {
+                            "arn": "arn:aws:iam::300795224194:role/ecs_role",
+                            "assume_role_policy": "{\n  \"Version\": \"2008-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": \"sts:AssumeRole\",\n      \"Principal\": {\n        \"Service\": [\"ecs.amazonaws.com\", \"ec2.amazonaws.com\"]\n      },\n      \"Effect\": \"Allow\"\n    }\n  ]\n}\n",
+                            "id": "ecs_role",
+                            "name": "ecs_role",
+                            "path": "/",
+                            "unique_id": "AROAJIDX3GDJZ2BEVMYF4"
+                        }
+                    }
+                },
+                "aws_iam_role_policy.ecs_instance_role_policy": {
+                    "type": "aws_iam_role_policy",
+                    "depends_on": [
+                        "aws_iam_role.ecs_role"
+                    ],
+                    "primary": {
+                        "id": "ecs_role:ecs_instance_role_policy",
+                        "attributes": {
+                            "id": "ecs_role:ecs_instance_role_policy",
+                            "name": "ecs_instance_role_policy",
+                            "policy": "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"ecs:CreateCluster\",\n        \"ecs:DeregisterContainerInstance\",\n        \"ecs:DiscoverPollEndpoint\",\n        \"ecs:Poll\",\n        \"ecs:RegisterContainerInstance\",\n        \"ecs:StartTelemetrySession\",\n        \"ecs:Submit*\",\n        \"ecs:StartTask\"\n      ],\n      \"Resource\": \"*\"\n    }\n  ]\n}\n",
+                            "role": "ecs_role"
+                        }
+                    }
+                },
+                "aws_iam_role_policy.ecs_service_role_policy": {
+                    "type": "aws_iam_role_policy",
+                    "depends_on": [
+                        "aws_iam_role.ecs_role",
+                        "template_file.ecs_service_role_policy"
+                    ],
+                    "primary": {
+                        "id": "ecs_role:ecs_service_role_policy",
+                        "attributes": {
+                            "id": "ecs_role:ecs_service_role_policy",
+                            "name": "ecs_service_role_policy",
+                            "policy": "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"elasticloadbalancing:Describe*\",\n        \"elasticloadbalancing:DeregisterInstancesFromLoadBalancer\",\n        \"elasticloadbalancing:RegisterInstancesWithLoadBalancer\",\n        \"ec2:Describe*\",\n        \"ec2:AuthorizeSecurityGroupIngress\"\n      ],\n      \"Resource\": [\n        \"*\"\n      ]\n    },\n    {\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"s3:ListBucket\"\n      ],\n      \"Resource\": [\n        \"arn:aws:s3:::sych-docker-east1\"\n      ]\n    },\n    {\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"s3:PutObject\",\n        \"s3:GetObject\",\n        \"s3:DeleteObject\"\n      ],\n      \"Resource\": [\n        \"arn:aws:s3:::sych-docker-east1/*\"\n      ]\n    }\n  ]\n}\n",
+                            "role": "ecs_role"
+                        }
+                    }
+                },
+                "aws_iam_user.registry": {
+                    "type": "aws_iam_user",
+                    "primary": {
+                        "id": "Registry",
+                        "attributes": {
+                            "arn": "arn:aws:iam::300795224194:user/Registry",
+                            "id": "Registry",
+                            "name": "Registry",
+                            "path": "/",
+                            "unique_id": "AIDAI6BFPRKKDQIHPFSMA"
+                        }
+                    }
+                },
+                "aws_key_pair.ecs": {
+                    "type": "aws_key_pair",
+                    "primary": {
+                        "id": "sych-ssh",
+                        "attributes": {
+                            "fingerprint": "6d:c8:4d:5b:40:40:62:26:2d:14:c3:a4:af:e4:64:c9",
+                            "id": "sych-ssh",
+                            "key_name": "sych-ssh",
+                            "public_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDKp+V3iht6FbPIPE+kjyfwWb1gcF2S0AOSABV1wqFbvGlSncsOPEO/jFE4IqtqXu9zirE8D9mq9AGBTtKpPCIdATqOooFzqMxFzV3vk5mWBSrIqOhb8MJhqXw8Nl4AEjJJbhyjmziBGKGpKnRQeO5KYCHqunUZSgC34m/BoBBbB7/JZrAZ+6f6TEehgXuOqExSGo8PBzvLteU5P3imq+yD2/nb7yhnpsnDd2BWimUGkRuJpM/tcnx2/RbPKivj12sQNdhjm9wuhOUTPAFaLu0Hl9yBgdRu+CdA+xTGYPRoVPBNrh6eanCgeUquD6yd3Y1wqNA62nwwRdY83WdqWmJ5 dmytrosychevsky@gmail.com"
+                        },
+                        "meta": {
+                            "schema_version": "1"
+                        }
+                    }
+                },
+                "aws_s3_bucket.registry": {
+                    "type": "aws_s3_bucket",
+                    "primary": {
+                        "id": "sych-docker-east1",
+                        "attributes": {
+                            "acl": "private",
+                            "arn": "arn:aws:s3:::sych-docker-east1",
+                            "bucket": "sych-docker-east1",
+                            "cors_rule.#": "0",
+                            "force_destroy": "false",
+                            "hosted_zone_id": "Z3AQBSTGFYJSTF",
+                            "id": "sych-docker-east1",
+                            "policy": "",
+                            "region": "us-east-1",
+                            "tags.#": "1",
+                            "tags.Name": "Docker Registry",
+                            "website.#": "0"
+                        }
+                    }
+                },
+                "aws_security_group.ecs": {
+                    "type": "aws_security_group",
+                    "primary": {
+                        "id": "sg-68f69613",
+                        "attributes": {
+                            "description": "Container Instance Allowed Ports",
+                            "egress.#": "1",
+                            "egress.482069346.cidr_blocks.#": "1",
+                            "egress.482069346.cidr_blocks.0": "0.0.0.0/0",
+                            "egress.482069346.from_port": "0",
+                            "egress.482069346.protocol": "-1",
+                            "egress.482069346.security_groups.#": "0",
+                            "egress.482069346.self": "false",
+                            "egress.482069346.to_port": "0",
+                            "id": "sg-68f69613",
+                            "ingress.#": "1",
+                            "ingress.1377569725.cidr_blocks.#": "1",
+                            "ingress.1377569725.cidr_blocks.0": "0.0.0.0/0",
+                            "ingress.1377569725.from_port": "1",
+                            "ingress.1377569725.protocol": "tcp",
+                            "ingress.1377569725.security_groups.#": "0",
+                            "ingress.1377569725.self": "false",
+                            "ingress.1377569725.to_port": "65535",
+                            "name": "ecs-sg",
+                            "owner_id": "300795224194",
+                            "tags.#": "1",
+                            "tags.Name": "ecs-sg",
+                            "vpc_id": "vpc-dc83a4b9"
+                        }
+                    }
+                },
+                "template_file.ecs_service_role_policy": {
+                    "type": "template_file",
+                    "primary": {
+                        "id": "c35b53a3142f0c31933971088db98da3606863c9f1ab0cd364dcc19b39bd8169",
+                        "attributes": {
+                            "id": "c35b53a3142f0c31933971088db98da3606863c9f1ab0cd364dcc19b39bd8169",
+                            "rendered": "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"elasticloadbalancing:Describe*\",\n        \"elasticloadbalancing:DeregisterInstancesFromLoadBalancer\",\n        \"elasticloadbalancing:RegisterInstancesWithLoadBalancer\",\n        \"ec2:Describe*\",\n        \"ec2:AuthorizeSecurityGroupIngress\"\n      ],\n      \"Resource\": [\n        \"*\"\n      ]\n    },\n    {\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"s3:ListBucket\"\n      ],\n      \"Resource\": [\n        \"arn:aws:s3:::sych-docker-east1\"\n      ]\n    },\n    {\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"s3:PutObject\",\n        \"s3:GetObject\",\n        \"s3:DeleteObject\"\n      ],\n      \"Resource\": [\n        \"arn:aws:s3:::sych-docker-east1/*\"\n      ]\n    }\n  ]\n}\n",
+                            "template": "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"elasticloadbalancing:Describe*\",\n        \"elasticloadbalancing:DeregisterInstancesFromLoadBalancer\",\n        \"elasticloadbalancing:RegisterInstancesWithLoadBalancer\",\n        \"ec2:Describe*\",\n        \"ec2:AuthorizeSecurityGroupIngress\"\n      ],\n      \"Resource\": [\n        \"*\"\n      ]\n    },\n    {\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"s3:ListBucket\"\n      ],\n      \"Resource\": [\n        \"arn:aws:s3:::${s3_bucket_name}\"\n      ]\n    },\n    {\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"s3:PutObject\",\n        \"s3:GetObject\",\n        \"s3:DeleteObject\"\n      ],\n      \"Resource\": [\n        \"arn:aws:s3:::${s3_bucket_name}/*\"\n      ]\n    }\n  ]\n}\n",
+                            "vars.#": "1",
+                            "vars.s3_bucket_name": "sych-docker-east1"
+                        }
+                    }
+                },
+                "template_file.registry_policy": {
+                    "type": "template_file",
+                    "primary": {
+                        "id": "9b5c5dc8273dc75c67580be24e5a358ced5eadbcbdfb3997ce3e6da4f0bb1482",
+                        "attributes": {
+                            "id": "9b5c5dc8273dc75c67580be24e5a358ced5eadbcbdfb3997ce3e6da4f0bb1482",
+                            "rendered": "{\n    \"Version\": \"2012-10-17\",\n    \"Statement\": [\n        {\n            \"Effect\": \"Allow\",\n            \"Action\": [\n                \"s3:ListBucket\"\n            ],\n            \"Resource\": [\n                \"arn:aws:s3:::sych-docker-east1\"\n            ]\n        },\n        {\n            \"Effect\": \"Allow\",\n            \"Action\": [\n                \"s3:PutObject\",\n                \"s3:GetObject\",\n                \"s3:DeleteObject\"\n            ],\n            \"Resource\": [\n                \"arn:aws:s3:::sych-docker-east1/*\"\n            ]\n        }\n    ]\n}\n",
+                            "template": "{\n    \"Version\": \"2012-10-17\",\n    \"Statement\": [\n        {\n            \"Effect\": \"Allow\",\n            \"Action\": [\n                \"s3:ListBucket\"\n            ],\n            \"Resource\": [\n                \"arn:aws:s3:::${s3_bucket_name}\"\n            ]\n        },\n        {\n            \"Effect\": \"Allow\",\n            \"Action\": [\n                \"s3:PutObject\",\n                \"s3:GetObject\",\n                \"s3:DeleteObject\"\n            ],\n            \"Resource\": [\n                \"arn:aws:s3:::${s3_bucket_name}/*\"\n            ]\n        }\n    ]\n}\n",
+                            "vars.#": "1",
+                            "vars.s3_bucket_name": "sych-docker-east1"
+                        }
+                    }
+                },
+                "template_file.registry_task": {
+                    "type": "template_file",
+                    "depends_on": [
+                        "aws_iam_access_key.registry",
+                        "aws_iam_access_key.registry",
+                        "aws_s3_bucket.registry",
+                        "aws_s3_bucket.registry"
+                    ],
+                    "primary": {
+                        "id": "1c0671c8f425cb2837f7c63cb2ce879eccfd1f70dc33f787909344765297824a",
+                        "attributes": {
+                            "id": "1c0671c8f425cb2837f7c63cb2ce879eccfd1f70dc33f787909344765297824a",
+                            "rendered": "[\n    {\n      \"name\": \"registry\",\n      \"image\": \"allingeek/registry:2-s3\",\n      \"cpu\": 1024,\n      \"memory\": 1000,\n      \"entryPoint\": [],\n      \"environment\": [\n        {\n          \"name\": \"REGISTRY_STORAGE_S3_ACCESSKEY\",\n          \"value\": \"AKIAIBIRIBYK635K7IPQ\"\n        },\n        {\n          \"name\": \"REGISTRY_STORAGE_S3_SECRETKEY\",\n          \"value\": \"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\"\n        },\n        {\n          \"name\": \"REGISTRY_STORAGE_S3_REGION\",\n          \"value\": \"us-east-1\"\n        },\n        {\n          \"name\": \"REGISTRY_STORAGE_S3_BUCKET\",\n          \"value\": \"sych-docker-east1\"\n        }\n      ],\n      \"command\": [\"/etc/docker/registry/config.yml\"],\n      \"portMappings\": [\n        {\n          \"hostPort\": 5000,\n          \"containerPort\": 5000,\n          \"protocol\": \"tcp\"\n        }\n      ],\n      \"volumesFrom\": [],\n      \"links\": [],\n      \"mountPoints\": [],\n      \"essential\": true\n    }\n]\n",
+                            "template": "[\n    {\n      \"name\": \"registry\",\n      \"image\": \"${registry_docker_image}\",\n      \"cpu\": 1024,\n      \"memory\": 1000,\n      \"entryPoint\": [],\n      \"environment\": [\n        {\n          \"name\": \"REGISTRY_STORAGE_S3_ACCESSKEY\",\n          \"value\": \"${s3_bucket_access_key}\"\n        },\n        {\n          \"name\": \"REGISTRY_STORAGE_S3_SECRETKEY\",\n          \"value\": \"${s3_bucket_secret_key}\"\n        },\n        {\n          \"name\": \"REGISTRY_STORAGE_S3_REGION\",\n          \"value\": \"${s3_bucket_region}\"\n        },\n        {\n          \"name\": \"REGISTRY_STORAGE_S3_BUCKET\",\n          \"value\": \"${s3_bucket_name}\"\n        }\n      ],\n      \"command\": [\"/etc/docker/registry/config.yml\"],\n      \"portMappings\": [\n        {\n          \"hostPort\": 5000,\n          \"containerPort\": 5000,\n          \"protocol\": \"tcp\"\n        }\n      ],\n      \"volumesFrom\": [],\n      \"links\": [],\n      \"mountPoints\": [],\n      \"essential\": true\n    }\n]\n",
+                            "vars.#": "5",
+                            "vars.registry_docker_image": "allingeek/registry:2-s3",
+                            "vars.s3_bucket_access_key": "AKIAIBIRIBYK635K7IPQ",
+                            "vars.s3_bucket_name": "sych-docker-east1",
+                            "vars.s3_bucket_region": "us-east-1",
+                            "vars.s3_bucket_secret_key": "DOgIf7P/1mKguFH743kbAwusRAQaYmxzV/L7i7zq                           "wait_for_capacity_timeout": "10m"
+                        }
+                    }
+                },
+                "aws_ecs_cluster.default": {
+                    "type": "aws_ecs_cluster",
+                    "primary": {
+                        "id": "arn:aws:ecs:us-east-1:300795224194:cluster/sych-tf-cluster",
+                        "attributes": {
+                            "id": "arn:aws:ecs:us-east-1:300795224194:cluster/sych-tf-cluster",
+                            "name": "sych-tf-cluster"
+                        }
+                    }
+                },
+                "aws_ecs_service.s3-registry-elb": {
+                    "type": "aws_ecs_service",
+                    "depends_on": [
+                        "aws_ecs_cluster.default",
+                        "aws_ecs_task_definition.registry",
+                        "aws_elb.s3-registry-elb",
+                        "aws_iam_role.ecs_role",
+                        "aws_iam_role_policy.ecs_service_role_policy"
+                    ],
+                    "primary": {
+                        "id": "arn:aws:ecs:us-east-1:300795224194:service/s3-registry-elb",
+                        "attributes": {
+                            "cluster": "arn:aws:ecs:us-east-1:300795224194:cluster/sych-tf-cluster",
+                            "deployment_maximum_percent": "200",
+                            "deployment_minimum_healthy_percent": "100",
+                            "desired_count": "1",
+                            "iam_role": "arn:aws:iam::300795224194:role/ecs_role",
+                            "id": "arn:aws:ecs:us-east-1:300795224194:service/s3-registry-elb",
+                            "load_balancer.#": "1",
+                            "load_balancer.2277684149.container_name": "registry",
+                            "load_balancer.2277684149.container_port": "5000",
+                            "load_balancer.2277684149.elb_name": "s3-registry-elb",
+                            "name": "s3-registry-elb",
+                            "task_definition": "arn:aws:ecs:us-east-1:300795224194:task-definition/registry:9"
+                        }
+                    }
+                },
+                "aws_ecs_task_definition.registry": {
+                    "type": "aws_ecs_task_definition",
+                    "depends_on": [
+                        "template_file.registry_task"
+                    ],
+                    "primary": {
+                        "id": "registry",
+                        "attributes": {
+                            "arn": "arn:aws:ecs:us-east-1:300795224194:task-definition/registry:9",
+                            "container_definitions": "b6ab003c7f822795e585f9b8aab1af2349b8a507",
+                            "family": "registry",
+                            "id": "registry",
+                            "revision": "9"
+                        }
+                    }
+                },
+                "aws_elb.s3-registry-elb": {
+                    "type": "aws_elb",
+                    "primary": {
+                        "id": "s3-registry-elb",
+                        "attributes": {
+                            "access_logs.#": "0",
+                            "availability_zones.#": "3",
+                            "availability_zones.1305112097": "us-east-1b",
+                            "availability_zones.2762590996": "us-east-1d",
+                            "availability_zones.986537655": "us-east-1c",
+                            "connection_draining": "false",
+                            "connection_draining_timeout": "300",
+                            "cross_zone_load_balancing": "false",
+                            "dns_name": "s3-registry-elb-1123895542.us-east-1.elb.amazonaws.com",
+                            "health_check.#": "1",
+                            "health_check.0.healthy_threshold": "2",
+                            "health_check.0.interval": "30",
+                            "health_check.0.target": "HTTP:5000/",
+                            "health_check.0.timeout": "3",
+                            "health_check.0.unhealthy_threshold": "2",
+                            "id": "s3-registry-elb",
+                            "idle_timeout": "60",
+                            "instances.#": "1",
+                            "instances.2074308648": "i-d68f2f93",
+                            "internal": "false",
+                            "listener.#": "1",
+                            "listener.996561874.instance_port": "5000",
+                            "listener.996561874.instance_protocol": "http",
+                            "listener.996561874.lb_port": "80",
+                            "listener.996561874.lb_protocol": "http",
+                            "listener.996561874.ssl_certificate_id": "",
+                            "name": "s3-registry-elb",
+                            "security_groups.#": "1",
+                            "security_groups.4043503174": "sg-43ec8c38",
+                            "source_security_group": "300795224194/default_elb_21abc278-02d3-3fa4-aaa4-408f97f9adb9",
+                            "source_security_group_id": "sg-43ec8c38",
+                            "subnets.#": "3",
+                            "subnets.1947741820": "subnet-740d9a2d",
+                            "subnets.2162367151": "subnet-5b87f72c",
+                            "subnets.3475649143": "subnet-bc3d8397",
+                            "tags.#": "1",
+                            "tags.Name": "s3-registry-elb",
+                            "zone_id": "Z3DZXE0Q79N41H"
+                        }
+                    }
+                },
+                "aws_iam_access_key.registry": {
+                    "type": "aws_iam_access_key",
+                    "depends_on": [
+                        "aws_iam_user.registry"
+                    ],
+                    "primary": {
+                        "id": "AKIAJ3BR3Q33CJMWJR7Q",
+                        "attributes": {
+                            "id": "AKIAJ3BR3Q33CJMWJR7Q",
+                            "secret": "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",
+                            "ses_smtp_password": "AjSErlr2AjnzIy+uPd/fEWyp0ohzn7ozTKyDOTAujzuH",
+                            "status": "Active",
+                            "user": "Registry"
+                        }
+                    }
+                },
+                "aws_iam_instance_profile.ecs": {
+                    "type": "aws_iam_instance_profile",
+                    "depends_on": [
+                        "aws_iam_role.ecs_role"
+                    ],
+                    "primary": {
+                        "id": "sych-ecs-instance-profile",
+                        "attributes": {
+                            "arn": "arn:aws:iam::300795224194:instance-profile/sych-ecs-instance-profile",
+                            "id": "sych-ecs-instance-profile",
+                            "name": "sych-ecs-instance-profile",
+                            "path": "/",
+                            "roles.#": "1",
+                            "roles.112154061": "ecs_role"
+                        }
+                    }
+                },
+                "aws_iam_policy.registry": {
+                    "type": "aws_iam_policy",
+                    "depends_on": [
+                        "template_file.registry_policy"
+                    ],
+                    "primary": {
+                        "id": "arn:aws:iam::300795224194:policy/registryaccess",
+                        "attributes": {
+                            "arn": "arn:aws:iam::300795224194:policy/registryaccess",
+                            "id": "arn:aws:iam::300795224194:policy/registryaccess",
+                            "name": "registryaccess",
+                            "path": "/",
+                            "policy": "{\n    \"Version\": \"2012-10-17\",\n    \"Statement\": [\n        {\n            \"Effect\": \"Allow\",\n            \"Action\": [\n                \"s3:ListBucket\"\n            ],\n            \"Resource\": [\n                \"arn:aws:s3:::sych-docker-east1\"\n            ]\n        },\n        {\n            \"Effect\": \"Allow\",\n            \"Action\": [\n                \"s3:PutObject\",\n                \"s3:GetObject\",\n                \"s3:DeleteObject\"\n            ],\n            \"Resource\": [\n                \"arn:aws:s3:::sych-docker-east1/*\"\n            ]\n        }\n    ]\n}\n"
+                        }
+                    }
+                },
+                "aws_iam_policy_attachment.registry-attach": {
+                    "type": "aws_iam_policy_attachment",
+                    "depends_on": [
+                        "aws_iam_policy.registry",
+                        "aws_iam_user.registry"
+                    ],
+                    "primary": {
+                        "id": "registry-attachment",
+                        "attributes": {
+                            "groups.#": "0",
+                            "id": "registry-attachment",
+                            "name": "registry-attachment",
+                            "policy_arn": "arn:aws:iam::300795224194:policy/registryaccess",
+                            "roles.#": "0",
+                            "users.#": "1",
+                            "users.886996828": "Registry"
+                        }
+                    }
+                },
+                "aws_iam_role.ecs_role": {
+                    "type": "aws_iam_role",
+                    "primary": {
+                        "id": "ecs_role",
+                        "attributes": {
+                            "arn": "arn:aws:iam::300795224194:role/ecs_role",
+                            "assume_role_policy": "{\n  \"Version\": \"2008-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": \"sts:AssumeRole\",\n      \"Principal\": {\n        \"Service\": [\"ecs.amazonaws.com\", \"ec2.amazonaws.com\"]\n      },\n      \"Effect\": \"Allow\"\n    }\n  ]\n}\n",
+                            "id": "ecs_role",
+                            "name": "ecs_role",
+                            "path": "/",
+                            "unique_id": "AROAJX5S3KAOAOZ5KNATY"
+                        }
+                    }
+                },
+                "aws_iam_role_policy.ecs_instance_role_policy": {
+                    "type": "aws_iam_role_policy",
+                    "depends_on": [
+                        "aws_iam_role.ecs_role"
+                    ],
+                    "primary": {
+                        "id": "ecs_role:ecs_instance_role_policy",
+                        "attributes": {
+                            "id": "ecs_role:ecs_instance_role_policy",
+                            "name": "ecs_instance_role_policy",
+                            "policy": "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"ecs:CreateCluster\",\n        \"ecs:DeregisterContainerInstance\",\n        \"ecs:DiscoverPollEndpoint\",\n        \"ecs:Poll\",\n        \"ecs:RegisterContainerInstance\",\n        \"ecs:StartTelemetrySession\",\n        \"ecs:Submit*\",\n        \"ecs:StartTask\"\n      ],\n      \"Resource\": \"*\"\n    }\n  ]\n}\n",
+                            "role": "ecs_role"
+                        }
+                    }
+                },
+                "aws_iam_role_policy.ecs_service_role_policy": {
+                    "type": "aws_iam_role_policy",
+                    "depends_on": [
+                        "aws_iam_role.ecs_role",
+                        "template_file.ecs_service_role_policy"
+                    ],
+                    "primary": {
+                        "id": "ecs_role:ecs_service_role_policy",
+                        "attributes": {
+                            "id": "ecs_role:ecs_service_role_policy",
+                            "name": "ecs_service_role_policy",
+                            "policy": "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"elasticloadbalancing:Describe*\",\n        \"elasticloadbalancing:DeregisterInstancesFromLoadBalancer\",\n        \"elasticloadbalancing:RegisterInstancesWithLoadBalancer\",\n        \"ec2:Describe*\",\n        \"ec2:AuthorizeSecurityGroupIngress\"\n      ],\n      \"Resource\": [\n        \"*\"\n      ]\n    },\n    {\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"s3:ListBucket\"\n      ],\n      \"Resource\": [\n        \"arn:aws:s3:::sych-docker-east1\"\n      ]\n    },\n    {\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"s3:PutObject\",\n        \"s3:GetObject\",\n        \"s3:DeleteObject\"\n      ],\n      \"Resource\": [\n        \"arn:aws:s3:::sych-docker-east1/*\"\n      ]\n    }\n  ]\n}\n",
+                            "role": "ecs_role"
+                        }
+                    }
+                },
+                "aws_iam_user.registry": {
+                    "type": "aws_iam_user",
+                    "primary": {
+                        "id": "Registry",
+                        "attributes": {
+                            "arn": "arn:aws:iam::300795224194:user/Registry",
+                            "id": "Registry",
+                            "name": "Registry",
+                            "path": "/",
+                            "unique_id": "AIDAI5QKF66MG45JJKSUM"
+                        }
+                    }
+                },
+                "aws_key_pair.ecs": {
+                    "type": "aws_key_pair",
+                    "primary": {
+                        "id": "sych-ssh",
+                        "attributes": {
+                            "fingerprint": "6d:c8:4d:5b:40:40:62:26:2d:14:c3:a4:af:e4:64:c9",
+                            "id": "sych-ssh",
+                            "key_name": "sych-ssh",
+                            "public_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDKp+V3iht6FbPIPE+kjyfwWb1gcF2S0AOSABV1wqFbvGlSncsOPEO/jFE4IqtqXu9zirE8D9mq9AGBTtKpPCIdATqOooFzqMxFzV3vk5mWBSrIqOhb8MJhqXw8Nl4AEjJJbhyjmziBGKGpKnRQeO5KYCHqunUZSgC34m/BoBBbB7/JZrAZ+6f6TEehgXuOqExSGo8PBzvLteU5P3imq+yD2/nb7yhnpsnDd2BWimUGkRuJpM/tcnx2/RbPKivj12sQNdhjm9wuhOUTPAFaLu0Hl9yBgdRu+CdA+xTGYPRoVPBNrh6eanCgeUquD6yd3Y1wqNA62nwwRdY83WdqWmJ5 dmytrosychevsky@gmail.com"
+                        },
+                        "meta": {
+                            "schema_version": "1"
+                        }
+                    }
+                },
+                "aws_launch_configuration.ecs": {
+                    "type": "aws_launch_configuration",
+                    "depends_on": [
+                        "aws_ecs_cluster.default",
+                        "aws_iam_instance_profile.ecs",
+                        "aws_key_pair.ecs",
+                        "aws_security_group.ecs"
+                    ],
+                    "primary": {
+                        "id": "ecs",
+                        "attributes": {
+                            "associate_public_ip_address": "false",
+                            "ebs_block_device.#": "0",
+                            "ebs_optimized": "false",
+                            "enable_monitoring": "true",
+                            "ephemeral_block_device.#": "0",
+                            "iam_instance_profile": "sych-ecs-instance-profile",
+                            "id": "ecs",
+                            "image_id": "ami-8f7687e2",
+                            "instance_type": "t2.micro",
+                            "key_name": "sych-ssh",
+                            "name": "ecs",
+                            "root_block_device.#": "0",
+                            "security_groups.#": "1",
+                            "security_groups.1904277736": "sg-74d2bf0f",
+                            "spot_price": "",
+                            "user_data": "00fde736d653e97a95cd8894ebaeecc6f392c7eb"
+                        }
+                    }
+                },
+                "aws_s3_bucket.registry": {
+                    "type": "aws_s3_bucket",
+                    "primary": {
+                        "id": "sych-docker-east1",
+                        "attributes": {
+                            "acl": "private",
+                            "arn": "arn:aws:s3:::sych-docker-east1",
+                            "bucket": "sych-docker-east1",
+                            "cors_rule.#": "0",
+                            "force_destroy": "false",
+                            "hosted_zone_id": "Z3AQBSTGFYJSTF",
+                            "id": "sych-docker-east1",
+                            "policy": "",
+                            "region": "us-east-1",
+                            "tags.#": "1",
+                            "tags.Name": "Docker Registry",
+                            "website.#": "0"
+                        }
+                    }
+                },
+                "aws_security_group.ecs": {
+                    "type": "aws_security_group",
+                    "primary": {
+                        "id": "sg-74d2bf0f",
+                        "attributes": {
+                            "description": "Container Instance Allowed Ports",
+                            "egress.#": "1",
+                            "egress.482069346.cidr_blocks.#": "1",
+                            "egress.482069346.cidr_blocks.0": "0.0.0.0/0",
+                            "egress.482069346.from_port": "0",
+                            "egress.482069346.protocol": "-1",
+                            "egress.482069346.security_groups.#": "0",
+                            "egress.482069346.self": "false",
+                            "egress.482069346.to_port": "0",
+                            "id": "sg-74d2bf0f",
+                            "ingress.#": "1",
+                            "ingress.1377569725.cidr_blocks.#": "1",
+                            "ingress.1377569725.cidr_blocks.0": "0.0.0.0/0",
+                            "ingress.1377569725.from_port": "1",
+                            "ingress.1377569725.protocol": "tcp",
+                            "ingress.1377569725.security_groups.#": "0",
+                            "ingress.1377569725.self": "false",
+                            "ingress.1377569725.to_port": "65535",
+                            "name": "ecs-sg",
+                            "owner_id": "300795224194",
+                            "tags.#": "1",
+                            "tags.Name": "ecs-sg",
+                            "vpc_id": "vpc-dc83a4b9"
+                        }
+                    }
+                },
+                "template_file.ecs_service_role_policy": {
+                    "type": "template_file",
+                    "primary": {
+                        "id": "c35b53a3142f0c31933971088db98da3606863c9f1ab0cd364dcc19b39bd8169",
+                        "attributes": {
+                            "id": "c35b53a3142f0c31933971088db98da3606863c9f1ab0cd364dcc19b39bd8169",
+                            "rendered": "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"elasticloadbalancing:Describe*\",\n        \"elasticloadbalancing:DeregisterInstancesFromLoadBalancer\",\n        \"elasticloadbalancing:RegisterInstancesWithLoadBalancer\",\n        \"ec2:Describe*\",\n        \"ec2:AuthorizeSecurityGroupIngress\"\n      ],\n      \"Resource\": [\n        \"*\"\n      ]\n    },\n    {\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"s3:ListBucket\"\n      ],\n      \"Resource\": [\n        \"arn:aws:s3:::sych-docker-east1\"\n      ]\n    },\n    {\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"s3:PutObject\",\n        \"s3:GetObject\",\n        \"s3:DeleteObject\"\n      ],\n      \"Resource\": [\n        \"arn:aws:s3:::sych-docker-east1/*\"\n      ]\n    }\n  ]\n}\n",
+                            "template": "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"elasticloadbalancing:Describe*\",\n        \"elasticloadbalancing:DeregisterInstancesFromLoadBalancer\",\n        \"elasticloadbalancing:RegisterInstancesWithLoadBalancer\",\n        \"ec2:Describe*\",\n        \"ec2:AuthorizeSecurityGroupIngress\"\n      ],\n      \"Resource\": [\n        \"*\"\n      ]\n    },\n    {\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"s3:ListBucket\"\n      ],\n      \"Resource\": [\n        \"arn:aws:s3:::${s3_bucket_name}\"\n      ]\n    },\n    {\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"s3:PutObject\",\n        \"s3:GetObject\",\n        \"s3:DeleteObject\"\n      ],\n      \"Resource\": [\n        \"arn:aws:s3:::${s3_bucket_name}/*\"\n      ]\n    }\n  ]\n}\n",
+                            "vars.#": "1",
+                            "vars.s3_bucket_name": "sych-docker-east1"
+                        }
+                    }
+                },
+                "template_file.registry_policy": {
+                    "type": "template_file",
+                    "primary": {
+                        "id": "9b5c5dc8273dc75c67580be24e5a358ced5eadbcbdfb3997ce3e6da4f0bb1482",
+                        "attributes": {
+                            "id": "9b5c5dc8273dc75c67580be24e5a358ced5eadbcbdfb3997ce3e6da4f0bb1482",
+                            "rendered": "{\n    \"Version\": \"2012-10-17\",\n    \"Statement\": [\n        {\n            \"Effect\": \"Allow\",\n            \"Action\": [\n                \"s3:ListBucket\"\n            ],\n            \"Resource\": [\n                \"arn:aws:s3:::sych-docker-east1\"\n            ]\n        },\n        {\n            \"Effect\": \"Allow\",\n            \"Action\": [\n                \"s3:PutObject\",\n                \"s3:GetObject\",\n                \"s3:DeleteObject\"\n            ],\n            \"Resource\": [\n                \"arn:aws:s3:::sych-docker-east1/*\"\n            ]\n        }\n    ]\n}\n",
+                            "template": "{\n    \"Version\": \"2012-10-17\",\n    \"Statement\": [\n        {\n            \"Effect\": \"Allow\",\n            \"Action\": [\n                \"s3:ListBucket\"\n            ],\n            \"Resource\": [\n                \"arn:aws:s3:::${s3_bucket_name}\"\n            ]\n        },\n        {\n            \"Effect\": \"Allow\",\n            \"Action\": [\n                \"s3:PutObject\",\n                \"s3:GetObject\",\n                \"s3:DeleteObject\"\n            ],\n            \"Resource\": [\n                \"arn:aws:s3:::${s3_bucket_name}/*\"\n            ]\n        }\n    ]\n}\n",
+                            "vars.#": "1",
+                            "vars.s3_bucket_name": "sych-docker-east1"
+                        }
+                    }
+                },
+                "template_file.registry_task": {
+                    "type": "template_file",
+                    "depends_on": [
+                        "aws_iam_access_key.registry",
+                        "aws_iam_access_key.registry",
+                        "aws_s3_bucket.registry",
+                        "aws_s3_bucket.registry"
+                    ],
+                    "primary": {
+                        "id": "afe5261529d0795443dc5514447876a508f9d84eee9e2a0fd6c08d6c933f8f71",
+                        "attributes": {
+                            "id": "afe5261529d0795443dc5514447876a508f9d84eee9e2a0fd6c08d6c933f8f71",
+                            "rendered": "[\n    {\n      \"name\": \"registry\",\n      \"image\": \"allingeek/registry:2-s3\",\n      \"cpu\": 512,\n      \"memory\": 512,\n      \"entryPoint\": [],\n      \"environment\": [\n        {\n          \"name\": \"REGISTRY_STORAGE_S3_ACCESSKEY\",\n          \"value\": \"AKIAJ3BR3Q33CJMWJR7Q\"\n        },\n        {\n          \"name\": \"REGISTRY_STORAGE_S3_SECRETKEY\",\n          \"value\": \"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\"\n        },\n        {\n          \"name\": \"REGISTRY_STORAGE_S3_REGION\",\n          \"value\": \"us-east-1\"\n        },\n        {\n          \"name\": \"REGISTRY_STORAGE_S3_BUCKET\",\n          \"value\": \"sych-docker-east1\"\n        }\n      ],\n      \"command\": [\"/etc/docker/registry/config.yml\"],\n      \"portMappings\": [\n        {\n          \"hostPort\": 5000,\n          \"containerPort\": 5000,\n          \"protocol\": \"tcp\"\n        }\n      ],\n      \"volumesFrom\": [],\n      \"links\": [],\n      \"mountPoints\": [],\n      \"essential\": true\n    }\n]\n",
+                            "template": "[\n    {\n      \"name\": \"registry\",\n      \"image\": \"${registry_docker_image}\",\n      \"cpu\": 512,\n      \"memory\": 512,\n      \"entryPoint\": [],\n      \"environment\": [\n        {\n          \"name\": \"REGISTRY_STORAGE_S3_ACCESSKEY\",\n          \"value\": \"${s3_bucket_access_key}\"\n        },\n        {\n          \"name\": \"REGISTRY_STORAGE_S3_SECRETKEY\",\n          \"value\": \"${s3_bucket_secret_key}\"\n        },\n        {\n          \"name\": \"REGISTRY_STORAGE_S3_REGION\",\n          \"value\": \"${s3_bucket_region}\"\n        },\n        {\n          \"name\": \"REGISTRY_STORAGE_S3_BUCKET\",\n          \"value\": \"${s3_bucket_name}\"\n        }\n      ],\n      \"command\": [\"/etc/docker/registry/config.yml\"],\n      \"portMappings\": [\n        {\n          \"hostPort\": 5000,\n          \"containerPort\": 5000,\n          \"protocol\": \"tcp\"\n        }\n      ],\n      \"volumesFrom\": [],\n      \"links\": [],\n      \"mountPoints\": [],\n      \"essential\": true\n    }\n]\n",
+                            "vars.#": "5",
+                            "vars.registry_docker_image": "allingeek/registry:2-s3",
+                            "vars.s3_bucket_access_key": "AKIAJ3BR3Q33CJMWJR7Q",
+                            "vars.s3_bucket_name": "sych-docker-east1",
+                            "vars.s3_bucket_region": "us-east-1",
+                            "vars.s3_bucket_secret_key": "cFSynb8kCXtfYTPs/Y6YrjXGp6aEGWLwmkQMDzY4"
+                        }
+                    }
+                }
+            }
+        }
+    ]
+}

@@ -18,21 +18,16 @@ variable "availability_zones" {
 
 variable "ecs_cluster_name" {
   description = "The name of the Amazon ECS cluster."
-  default = "default"
+  default = "golancer-tf"
 }
 
-variable "s3_bucket_name" {
-  description = "The name of the s3 bucket to store the registry data in."
-  default = "s3-ecs-docker-registry.example.com"
+variable "golancer_server_docker_image" {
+  description = "The docker image to use when provisioning the Golancer Server"
+  default     = "allingeek/registry:2-s3"
 }
 
-variable "registry_username" {
-  description = "The username to use when connecting to the registry."
-  default = "Registry"
-}
-
-variable "registry_docker_image" {
-  description = "The docker image to use when provisioning the registry."
+variable "golancer_server_node_image" {
+  description = "The docker image to use when provisioning the."
   default     = "allingeek/registry:2-s3"
 }
 
@@ -49,7 +44,7 @@ variable "amis" {
 }
 
 variable "instance_type" {
-  default = "t2.micro"
+  default = "m4.large"
 }
 
 variable "key_name" {

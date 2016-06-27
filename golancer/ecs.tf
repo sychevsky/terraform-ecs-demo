@@ -8,7 +8,7 @@ resource "aws_key_pair" "ecs" {
  * Launch configuration used by autoscaling group
  */
 resource "aws_launch_configuration" "ecs" {
-  name                 = "ecs"
+  name                 = "golancer-ecs"
   image_id             = "${lookup(var.amis, var.region)}"
   /* @todo - split out to a variable */
   instance_type        = "${var.instance_type}"
@@ -22,14 +22,14 @@ resource "aws_launch_configuration" "ecs" {
 /**
  * Autoscaling group.
  */
-resource "aws_autoscaling_group" "ecs" {
-  name                 = "ecs-asg"
+resource "aws_autoscaling_group" "golancer-ecs" {
+  name                 = "golancer-ecs"
   availability_zones   = ["${split(",", var.availability_zones)}"]
   launch_configuration = "${aws_launch_configuration.ecs.name}"
   /* @todo - variablize */
-  min_size             = 1
-  max_size             = 2
-  desired_capacity     = 1
+  min_size             = 2
+  max_size             = 4
+  desired_capacity     = 2
 }
 
 /* ecs service cluster */

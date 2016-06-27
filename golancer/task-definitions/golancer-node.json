@@ -1,6 +1,6 @@
 [
     {
-      "name": "registry",
+      "name": "golancer-balancer",
       "image": "${registry_docker_image}",
       "cpu": 512,
       "memory": 512,
