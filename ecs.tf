@@ -28,8 +28,8 @@ resource "aws_autoscaling_group" "ecs" {
   launch_configuration = "${aws_launch_configuration.ecs.name}"
   /* @todo - variablize */
   min_size             = 1
-  max_size             = 2
-  desired_capacity     = 1
+  max_size             = 5
+  desired_capacity     = 2
 }
 
 /* ecs service cluster */
