@@ -21,6 +21,11 @@ variable "ecs_cluster_name" {
   default = "default"
 }
 
+variable "ecs_cluster_log_driver" {
+  description = "Log driver for Amazon ECS cluster, default gelf"
+  default = ""
+}
+
 variable "s3_bucket_name" {
   description = "The name of the s3 bucket to store the registry data in."
   default = "s3-ecs-docker-registry.example.com"

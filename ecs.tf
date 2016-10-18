@@ -16,7 +16,7 @@ resource "aws_launch_configuration" "ecs" {
   iam_instance_profile = "${aws_iam_instance_profile.ecs.id}"
   security_groups      = ["${aws_security_group.ecs.id}"]
   iam_instance_profile = "${aws_iam_instance_profile.ecs.name}"
-  user_data            = "#!/bin/bash\necho ECS_CLUSTER=${aws_ecs_cluster.default.name} > /etc/ecs/ecs.config"
+  user_data            = "#!/bin/bash\necho ECS_CLUSTER=${aws_ecs_cluster.default.name}\nECS_AVAILABLE_LOGGING_DRIVERS=["${aws_ecs_cluster_log_driver}"]\n > /etc/ecs/ecs.config"
 }
 
 /**
